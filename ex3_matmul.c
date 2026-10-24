@@ -21,7 +21,6 @@ void matmul_seq(const double *A, const double *B, double *C, int N) {
         }
 }
 
-/* Versao paralela: mesmo algoritmo, blocos de linhas (ii) divididos entre threads */
 void matmul_par(const double *A, const double *B, double *C, int N) {
     #pragma omp parallel for schedule(static)
     for (int ii = 0; ii < N; ii += BS)
@@ -38,7 +37,7 @@ void matmul_par(const double *A, const double *B, double *C, int N) {
 int main(int argc, char **argv) {
     int N = atoi(argv[1]); int par = strcmp(argv[2], "par") == 0;
     int nt = par ? atoi(argv[3]) : 1;
-    omp_set_num_threads(nt);                 /* N deve ser multiplo de BS */
+    omp_set_num_threads(nt);
     double *A = malloc((size_t)N * N * sizeof(double));
     double *B = malloc((size_t)N * N * sizeof(double));
     double *C = malloc((size_t)N * N * sizeof(double));
